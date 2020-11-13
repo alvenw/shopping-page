@@ -8,9 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import faker from 'faker';
 
-const ItemCard = () => {
+const ItemCard = React.memo((props) => {
 
   const StyledCard = styled(Card)`
     height: 400px;
@@ -24,17 +23,13 @@ const ItemCard = () => {
   `;
 
   const [itemQuantity, setQuantity] = useState(0);
-  const [itemName] = useState(faker.commerce.product()); //generate fake item name, price, and image through faker.js
-  const [itemPrice,] = useState(faker.commerce.price());
-  const [itemImage] = useState(faker.image.image());
+  const [itemName] = useState(props.itemName);
+  const [itemPrice] = useState(props.itemPrice);
+  const [itemImage] = useState(props.itemImage);
 
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event) => {
-    
-    if (event.target.value=="") {
-      setQuantity(0);
-    }
     setQuantity(event.target.value);
   }
 
@@ -43,6 +38,9 @@ const ItemCard = () => {
       return
     }
     setOpen(true);
+
+    props.addCartPrice(itemPrice*itemQuantity);
+    props.addToCart([itemName, itemQuantity]);
   };
 
   const handleClose = (event, reason) => {
@@ -63,7 +61,7 @@ const ItemCard = () => {
           {itemName} {"$" + itemPrice}
         </Typography>
       </CardContent>
-      <TextField onChange={handleChange} value={itemQuantity} type="number" autoFocus/>
+      <TextField onChange={handleChange} value={itemQuantity} type="number"/>
       <Button onClick={handleClick}>
         Add to Cart
       </Button>
@@ -86,6 +84,6 @@ const ItemCard = () => {
       />
     </StyledCard>
   );
-}
+})
 
 export default ItemCard;

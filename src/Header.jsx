@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Cart from './Cart'
 
-const Header = () => {
+const Header = (props) => {
   const StyledBar = styled(AppBar)`
     display: flex;
     flex-direction: row;
@@ -23,8 +23,8 @@ const Header = () => {
       <BarContainer>
         <Typography variant="h4" style={{ display: 'inline-block' }}>
           Shopping Page
-      </Typography>
-        <Cart />
+        </Typography>
+        <Cart cartArray={props.cartArray}/>
       </BarContainer>
     </StyledBar>
   )
