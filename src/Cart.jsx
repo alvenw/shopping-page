@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
@@ -44,7 +44,7 @@ const Cart = (props) => {
           vertical: 'top',
           horizontal: 'center',
         }}>
-        <CartPopover cartArray={props.cartArray} />
+        <CartPopover cartArray={props.cartArray} removeFromCart={props.removeFromCart}/>
       </Popover>
     </>
   )
@@ -53,36 +53,57 @@ const Cart = (props) => {
 const CartPopover = (props) => {
   const StyledPopover = styled(Card)`
     width:300px;
+    border-bottom: 1px solid black
   `;
 
   const [cartArray] = useState(props.cartArray);
-  const [isCartEmpty, setCartEmpty] = useState(cartArray.length == 0);
+  const [isCartEmpty] = useState(cartArray.length == 0);
+  const [cartPrice, setCartPrice] = useState(0);
+
+  const sumCartPrice = () => {
+    /*catch for empty array*/
+    if (!isCartEmpty) {
+      const total = cartArray.reduce((sum, current) => {
+        return {price: sum.price + (current.itemPrice * current.itemQuantity)};
+      }, {price:0}) //reduce cart array to sum the price of the cart
+
+      setCartPrice(total.price);
+    }
+  }
+
+  useEffect(() => {
+    sumCartPrice();
+  })
+
+  const handleClick = (item) => {
+    props.removeFromCart(item);
+  }
 
   /*rendering each item in the shopping cart*/
   const cartItems = cartArray.map((item => {
     return (
       <StyledPopover>
-        <CardActionArea>
+
           <CardContent>
             <Typography>
-              {item[0]}
+              {item.itemName}
             </Typography>
             <Typography>
-              {item[1]}
+              {item.itemPrice}
+            </Typography>
+            <Typography>
+              {item.itemQuantity}
             </Typography>
           </CardContent>
-        </CardActionArea>
+
         <CardActions>
-          <Button>
+          <Button onClick={()=> {handleClick(item)}}>
             Remove
         </Button>
         </CardActions>
       </StyledPopover>
     )
   }));
-
-  console.log(cartArray);
-  console.log(cartItems);
 
   if (isCartEmpty) {
     return (
@@ -98,6 +119,13 @@ const CartPopover = (props) => {
     return (
       <div>
         {cartItems}
+        <StyledPopover>
+          <CardContent>
+            <Typography>
+              Total cart: ${cartPrice}
+            </Typography>
+          </CardContent>
+        </StyledPopover>
       </div>
     )
   }

@@ -24,13 +24,18 @@ function App() {
     setCartPrice(cartPrice + value);
   }
 
+  /*each cart item includes item name, quantity, and price*/
   const addToCart = (newItem) => {
     setCartArray(cartArray => [...cartArray, newItem]) //inserting new item to end of cart array
   }
 
-  // const removeFromCart = (removedItem) => {
-  //   setCartArray
-  // }
+  const removeFromCart = (removedItem) => {
+    const newArray = cartArray.filter((item) => {
+      return item.itemName !== removedItem.itemName
+    })
+
+    setCartArray (newArray);
+  }
 
   const itemsArray = [];
 
@@ -52,7 +57,7 @@ function App() {
 
   return (
     <>
-      <Header cartArray={cartArray}/>
+      <Header cartArray={cartArray} removeFromCart={removeFromCart}/>
       <Body>
       <Grid container>
         {itemsArray.map(items => {

@@ -40,7 +40,10 @@ const ItemCard = React.memo((props) => {
     setOpen(true);
 
     props.addCartPrice(itemPrice*itemQuantity);
-    props.addToCart([itemName, itemQuantity]);
+    props.addToCart({
+      itemName: itemName, 
+      itemQuantity: itemQuantity, 
+      itemPrice: itemPrice});
   };
 
   const handleClose = (event, reason) => {

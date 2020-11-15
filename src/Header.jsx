@@ -24,7 +24,7 @@ const Header = (props) => {
         <Typography variant="h4" style={{ display: 'inline-block' }}>
           Shopping Page
         </Typography>
-        <Cart cartArray={props.cartArray}/>
+        <Cart cartArray={props.cartArray} removeFromCart={props.removeFromCart}/>
       </BarContainer>
     </StyledBar>
   )
