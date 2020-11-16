@@ -89,7 +89,7 @@ const CartPopover = (props) => {
               {item.itemName}
             </Typography>
             <Typography>
-              {item.itemPrice}
+              ${item.itemPrice}
             </Typography>
             <Typography>
               {item.itemQuantity}

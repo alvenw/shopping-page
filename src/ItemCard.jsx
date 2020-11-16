@@ -22,6 +22,8 @@ const ItemCard = React.memo((props) => {
     height: 200px;
   `;
 
+  const textInput = React.useRef(null);
+
   const [itemQuantity, setQuantity] = useState(0);
   const [itemName] = useState(props.itemName);
   const [itemPrice] = useState(props.itemPrice);
@@ -31,6 +33,7 @@ const ItemCard = React.memo((props) => {
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
+    textInput.current.focus();
   }
 
   const handleClick = () => {
@@ -64,7 +67,7 @@ const ItemCard = React.memo((props) => {
           {itemName} {"$" + itemPrice}
         </Typography>
       </CardContent>
-      <TextField onChange={handleChange} value={itemQuantity} type="number"/>
+      <TextField onChange={handleChange} value={itemQuantity} type="number" inputRef={textInput}/>
       <Button onClick={handleClick}>
         Add to Cart
       </Button>

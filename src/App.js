@@ -17,6 +17,21 @@ function App() {
     justify-content: center;
   `
 
+  const generateItems = () => {
+    const arr = []
+    for (let i = 0; i < 9; i++) {
+      const itemName = faker.commerce.productName();
+      const itemPrice = faker.commerce.price();
+      const itemImage = faker.image.image();
+      arr.push({
+        itemName: itemName,
+        itemPrice: itemPrice,
+        itemImage: itemImage
+      })
+    }
+    return arr;
+  }
+
   const [cartPrice, setCartPrice] = useState(0);
   const [cartArray, setCartArray] = useState([]);
 
@@ -37,23 +52,7 @@ function App() {
     setCartArray (newArray);
   }
 
-  const itemsArray = [];
-
-  const generateItems = (array) => {
-    for (let i = 0; i < 9; i++) {
-      const arr = []
-      const itemName = faker.commerce.productName();
-      const itemPrice = faker.commerce.price();
-      const itemImage = faker.image.image();
-      array.push({
-        itemName: itemName,
-        itemPrice: itemPrice,
-        itemImage: itemImage
-      })
-    }
-  }
-
-  generateItems(itemsArray);
+  const [itemsArray] = useState(generateItems());
 
   return (
     <>
@@ -63,7 +62,7 @@ function App() {
         {itemsArray.map(items => {
           return(
           <ItemGrid item xs={12} sm = {6} md={4} lg={3}>
-            <ItemCard addCartPrice={addCartPrice} addToCart={addToCart} itemName={items.itemName} itemPrice={items.itemPrice} itemImage={items.itemImage}/>
+            <ItemCard key={items.itemName} addCartPrice={addCartPrice} addToCart={addToCart} itemName={items.itemName} itemPrice={items.itemPrice} itemImage={items.itemImage}/>
           </ItemGrid>
           )
         })}
