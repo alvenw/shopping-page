@@ -7,11 +7,7 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
-
-import ItemCard from './ItemCard';
-
 
 const Cart = (props) => {
   const [anchorEl, setAnchorEl] = useState(null); //states for anchoring popover position
@@ -57,7 +53,7 @@ const CartPopover = (props) => {
   `;
 
   const [cartArray] = useState(props.cartArray);
-  const [isCartEmpty] = useState(cartArray.length == 0);
+  const [isCartEmpty] = useState(cartArray.length === 0);
   const [cartPrice, setCartPrice] = useState(0);
 
   const sumCartPrice = () => {
