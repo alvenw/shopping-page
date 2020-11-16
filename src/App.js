@@ -17,6 +17,7 @@ function App() {
     justify-content: center;
   `
 
+  //generate shop items using faker.js
   const generateItems = () => {
     const arr = []
     for (let i = 0; i < 9; i++) {
@@ -31,9 +32,6 @@ function App() {
     }
     return arr;
   }
-
-  const [cartPrice, setCartPrice] = useState(0);
-  const [cartArray, setCartArray] = useState([]);
 
   const addCartPrice = (value) => {
     setCartPrice(cartPrice + value);
@@ -52,6 +50,8 @@ function App() {
     setCartArray (newArray);
   }
 
+  const [cartPrice, setCartPrice] = useState(0);
+  const [cartArray, setCartArray] = useState([]);
   const [itemsArray] = useState(generateItems());
 
   return (

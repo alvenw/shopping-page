@@ -22,33 +22,28 @@ const ItemCard = React.memo((props) => {
     height: 200px;
   `;
 
-  const textInput = React.useRef(null);
-
-  const [itemQuantity, setQuantity] = useState(0);
-  const [itemName] = useState(props.itemName);
-  const [itemPrice] = useState(props.itemPrice);
-  const [itemImage] = useState(props.itemImage);
-
-  const [open, setOpen] = React.useState(false);
-
+  /*binding the textfield number to item quantity*/
   const handleChange = (event) => {
     setQuantity(event.target.value);
-    textInput.current.focus();
   }
 
+  /*opening snackbar if adding item to cart*/
   const handleClick = () => {
     if (itemQuantity <= 0) {
       return
     }
     setOpen(true);
-
-    props.addCartPrice(itemPrice*itemQuantity);
-    props.addToCart({
-      itemName: itemName, 
-      itemQuantity: itemQuantity, 
-      itemPrice: itemPrice});
   };
 
+  const addToCart = () => {
+    props.addCartPrice(itemPrice*itemQuantity);
+    props.addToCart(
+      {
+      itemName: itemName, 
+      itemQuantity: itemQuantity, 
+      itemPrice: itemPrice
+    });
+  }
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -56,6 +51,14 @@ const ItemCard = React.memo((props) => {
 
     setOpen(false);
   };
+
+  const [itemQuantity, setQuantity] = useState(0);
+  const [itemName] = useState(props.itemName);
+  const [itemPrice] = useState(props.itemPrice);
+  const [itemImage] = useState(props.itemImage);
+  const [open, setOpen] = useState(false);
+
+  
 
   return (
     <StyledCard>
@@ -67,7 +70,7 @@ const ItemCard = React.memo((props) => {
           {itemName} {"$" + itemPrice}
         </Typography>
       </CardContent>
-      <TextField onChange={handleChange} value={itemQuantity} type="number" inputRef={textInput}/>
+      <TextField onChange={handleChange} value={itemQuantity} type="number"/>
       <Button onClick={handleClick}>
         Add to Cart
       </Button>
@@ -80,6 +83,7 @@ const ItemCard = React.memo((props) => {
         autoHideDuration={3000}
         onClose={handleClose}
         message={itemQuantity + " " + itemName + " added to Cart"}
+        onEntered={addToCart}
         action={
           <React.Fragment>
             <Button color="secondary" size="small" onClick={handleClose}>
